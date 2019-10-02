@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
 import './models/transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 
-void main() => runApp(Main());
+void main() {
+  //! Can be a valid solution when the app has no reason to
+  //! change the screen orientation
+  //* SystemChrome.setPreferredOrientations(
+  //*   [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  //* );
+  return runApp(Main());
+}
 
 class Main extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -53,6 +61,17 @@ class _AppState extends State<App> {
     });
   }
 
+  double _calculateAppbarHeightSize(
+    double appBarHeight,
+    double statusbarHeight,
+    double preferedHeightSize,
+  ) {
+    return (MediaQuery.of(context).size.height -
+            appBarHeight -
+            statusbarHeight) *
+        preferedHeightSize;
+  }
+
   void _openAddNewExpense() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -69,26 +88,39 @@ class _AppState extends State<App> {
   }
 
   Widget _buildApp(BuildContext context) {
+    final appBar = AppBar(
+      backgroundColor: Colors.green[600],
+      centerTitle: true,
+      title: Text('Wallet Drainer'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.account_circle,
+            color: Colors.white,
+          ),
+          onPressed: null,
+        )
+      ],
+    );
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.green[600],
-          centerTitle: true,
-          title: Text('Wallet Drainer'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.account_circle,
-                color: Colors.white,
-              ),
-              onPressed: null,
-            )
-          ],
-        ),
+        appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Chart(recentTransactions: _recentTransactions),
-              TransactionList(_userTransactions, _deleteTransaction),
+              Container(
+                height: _calculateAppbarHeightSize(appBar.preferredSize.height,
+                    MediaQuery.of(context).padding.top, 0.3),
+                child: Chart(recentTransactions: _recentTransactions),
+              ),
+              Container(
+                height: _calculateAppbarHeightSize(appBar.preferredSize.height,
+                    MediaQuery.of(context).padding.top, 0.7),
+                child: TransactionList(
+                  _userTransactions,
+                  _deleteTransaction,
+                ),
+              ),
             ],
           ),
         ),

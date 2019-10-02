@@ -9,17 +9,23 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          FittedBox(child: Text('R\$${spendingAmount.toStringAsFixed(0)}')),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(children: <Widget>[
+          Container(
+            height: constraints.maxHeight * 0.15,
+            child: FittedBox(
+              child: Text('R\$${spendingAmount.toStringAsFixed(0)}'),
+            ),
+          ),
           Container(
             width: 16,
-            height: 80,
-            margin: EdgeInsets.symmetric(vertical: 10),
+            height: constraints.maxHeight * 0.6,
+            margin: EdgeInsets.symmetric(vertical: 5),
             child: Stack(
               children: <Widget>[
                 Container(
+                  height: constraints.maxHeight * 0.6,
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(220, 220, 220, 1),
                     borderRadius: BorderRadius.circular(10),
@@ -37,9 +43,14 @@ class ChartBar extends StatelessWidget {
               ],
             ),
           ),
-          Text('$label'),
-        ],
-      ),
+          Container(
+            height: constraints.maxHeight * 0.15,
+            child: FittedBox(
+              child: Text('$label'),
+            ),
+          ),
+        ]);
+      },
     );
   }
 }

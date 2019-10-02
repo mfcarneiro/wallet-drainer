@@ -38,57 +38,54 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      child: transactionList.isEmpty
-          ? _buildNoResultPlaceholder()
-          : ListView.builder(
-              itemBuilder: (builderContext, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  elevation: 2,
-                  child: ListTile(
-                    isThreeLine: true,
-                    leading: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          '- R\$${transactionList[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontSize: 16,
-                          ),
+    return transactionList.isEmpty
+        ? _buildNoResultPlaceholder()
+        : ListView.builder(
+            itemBuilder: (builderContext, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                elevation: 2,
+                child: ListTile(
+                  isThreeLine: true,
+                  leading: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Text(
+                        '- R\$${transactionList[index].amount.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                    title: Text(
-                      transactionList[index].title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '${DateFormat().add_yMMMMEEEEd().format(transactionList[index].date)}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () => deleteTransaction(
-                        transactionList[index].id,
-                      ),
+                  ),
+                  title: Text(
+                    transactionList[index].title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              },
-              itemCount: transactionList.length,
-            ),
-    );
+                  subtitle: Text(
+                    '${DateFormat().add_yMMMMEEEEd().format(transactionList[index].date)}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => deleteTransaction(
+                      transactionList[index].id,
+                    ),
+                  ),
+                ),
+              );
+            },
+            itemCount: transactionList.length,
+          );
   }
 }
