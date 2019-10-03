@@ -62,13 +62,12 @@ class _AppState extends State<App> {
   }
 
   double _calculateAppbarHeightSize(
+    MediaQueryData mediaQuery,
     double appBarHeight,
     double statusbarHeight,
     double preferedHeightSize,
   ) {
-    return (MediaQuery.of(context).size.height -
-            appBarHeight -
-            statusbarHeight) *
+    return (mediaQuery.size.height - appBarHeight - statusbarHeight) *
         preferedHeightSize;
   }
 
@@ -79,7 +78,7 @@ class _AppState extends State<App> {
       builder: (_) {
         return GestureDetector(
           child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(height: 400),
+            constraints: const BoxConstraints.tightFor(height: 400),
             child: NewTransaction(addNewTransaction: _addNewTransaction),
           ),
         );
@@ -88,13 +87,16 @@ class _AppState extends State<App> {
   }
 
   Widget _buildApp(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final ThemeData theme = Theme.of(context);
+
     final appBar = AppBar(
       backgroundColor: Colors.green[600],
       centerTitle: true,
-      title: Text('Wallet Drainer'),
+      title: const Text('Wallet Drainer'),
       actions: <Widget>[
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.account_circle,
             color: Colors.white,
           ),
@@ -109,13 +111,21 @@ class _AppState extends State<App> {
           child: Column(
             children: <Widget>[
               Container(
-                height: _calculateAppbarHeightSize(appBar.preferredSize.height,
-                    MediaQuery.of(context).padding.top, 0.3),
+                height: _calculateAppbarHeightSize(
+                  mediaQuery,
+                  appBar.preferredSize.height,
+                  mediaQuery.padding.top,
+                  0.3,
+                ),
                 child: Chart(recentTransactions: _recentTransactions),
               ),
               Container(
-                height: _calculateAppbarHeightSize(appBar.preferredSize.height,
-                    MediaQuery.of(context).padding.top, 0.7),
+                height: _calculateAppbarHeightSize(
+                  mediaQuery,
+                  appBar.preferredSize.height,
+                  mediaQuery.padding.top,
+                  0.7,
+                ),
                 child: TransactionList(
                   _userTransactions,
                   _deleteTransaction,
@@ -127,7 +137,7 @@ class _AppState extends State<App> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () => _openAddNewExpense(),
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: theme.accentColor,
         ));
   }
 

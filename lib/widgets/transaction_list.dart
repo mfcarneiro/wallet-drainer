@@ -15,15 +15,15 @@ class TransactionList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
+            const Icon(
               Icons.money_off,
               size: 55,
               color: Colors.grey,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'No drainer expenses added yet!',
               style: TextStyle(
                 color: Colors.grey,
@@ -71,13 +71,13 @@ class TransactionList extends StatelessWidget {
                   ),
                   subtitle: Text(
                     '${DateFormat().add_yMMMMEEEEd().format(transactionList[index].date)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.blueGrey,
                     ),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () => deleteTransaction(
                       transactionList[index].id,
                     ),
