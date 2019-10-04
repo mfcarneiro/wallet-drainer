@@ -28,7 +28,7 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [];
 
   List<Transaction> get _recentTransactions {
@@ -37,6 +37,24 @@ class _AppState extends State<App> {
         Duration(days: 7),
       ));
     }).toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //! This method will call (initialize) didChangeAppLifecycleState method
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   void _addNewTransaction(
